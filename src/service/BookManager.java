@@ -10,7 +10,7 @@ public class BookManager {
 
 
     public BookManager(){
-        bookStore= new ArrayList<BookModel>();
+        this.bookStore= new ArrayList<BookModel>();
     }
 
     /**
@@ -19,13 +19,14 @@ public class BookManager {
      * @param bookId
      * @param bookName
      * @param ISBN
-     * @param author
+     * @param authors
      * @param genre
      * @param totalCopies
      */
-    public void addBook(int bookId, String bookName, String ISBN, String author, String genre, int totalCopies){
-        BookModel bookModel =new BookModel(bookId,bookName,ISBN,author,genre,totalCopies);
-        bookStore.add(bookModel);
+    public void addBook(int bookId, String bookName, String ISBN, String[] authors, String genre, int totalCopies){
+
+     BookModel bookModel =new BookModel(bookId,bookName,ISBN,authors,genre,totalCopies);
+     bookStore.add(bookModel);
     }
 
     /**
@@ -102,8 +103,12 @@ public class BookManager {
         }
      }
 
-
-
-
-
+     public boolean isDuplicateBookId(int bookId){
+             for(BookModel book: bookStore){
+                 if(bookId==book.getBookId()){
+                   return true;
+                 }
+             }
+             return false;
+}
 }

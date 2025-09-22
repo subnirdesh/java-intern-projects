@@ -1,19 +1,21 @@
 package model;
 
+import java.util.Arrays;
+
 public class BookModel {
     private int bookId;
     private String bookName;
     private String ISBN;
-    private String author;
+    private String[] authors;
     private String genre;
     private int totalCopies;
 
 
-    public BookModel(int bookId, String bookName, String ISBN, String author, String genre, int totalCopies) {
+    public BookModel(int bookId, String bookName, String ISBN, String[] authors, String genre, int totalCopies) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.ISBN = ISBN;
-        this.author = author;
+        this.authors = authors;
         this.genre = genre;
         this.totalCopies = totalCopies;
     }
@@ -42,12 +44,12 @@ public class BookModel {
         this.ISBN = ISBN;
     }
 
-    public String getAuthor() {
-        return author;
+    public String[] getAuthor() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(String[] author) {
+        this.authors = author;
     }
 
     public String getGenre() {
@@ -69,6 +71,6 @@ public class BookModel {
     @Override
     public String toString() {
         return String.format("%-5d | %-20s | %-15s | %-15s | %-10s | %-5d",
-                bookId, bookName, ISBN, author, genre, totalCopies);
+                bookId, bookName, ISBN, Arrays.toString(authors), genre, totalCopies);
     }
 }
