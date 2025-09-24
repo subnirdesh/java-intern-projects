@@ -1,0 +1,2 @@
+Expense Id,Name,Amount,Category,Via,Date
+1,dinner,2500.0,Misc,Fonepay,2061-09-11

@@ -1,0 +1,2 @@
+Expense Id,Name,Amount,Category,Via,Date
+1,lunch,100.25,Utilities,Cash,2025-07-11
