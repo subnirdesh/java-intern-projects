@@ -26,34 +26,24 @@ public class DatabaseHelper {
         return connection;
     }
 
-    public  boolean executeDefintion(String query){
+    public  boolean executeDefintion(String query) throws SQLException,ClassNotFoundException{
         try(PreparedStatement stmt = ensureConnection().prepareStatement(query)){
             stmt.execute();
             return true;
-
-        }catch(SQLException |ClassNotFoundException e){
-            System.out.println(" Error occured "+e.getMessage());
-            e.printStackTrace();
-            return false;
         }
     }
 
-    public int executeManipulation(String query, Object... params){
+    public int executeManipulation (String query, Object... params) throws SQLException,ClassNotFoundException{
         try(PreparedStatement stmt=ensureConnection().prepareStatement(query)){
             for(int i=0;i<params.length;i++){
                 stmt.setObject(i+1,params[i]);
               }
             return stmt.executeUpdate();
-
-        } catch (SQLException| ClassNotFoundException e) {
-            System.out.println("An error occured "+ e.getMessage());
-            e.printStackTrace();
-            return  -1;
+        }
         }
     }
 
 
 
-    }
 
 

@@ -1,14 +1,9 @@
 package service;
 
-import config.DatabaseConfig;
+
 import config.DatabaseHelper;
 import model.DepartmentModel;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class DepartmentService {
    private DatabaseHelper databaseHelper;
@@ -19,24 +14,26 @@ public class DepartmentService {
    }
 
 
-    public Boolean createDepartmentTable(){
+    public Boolean createDepartmentTable() throws SQLException,ClassNotFoundException{
       String query="CREATE TABLE IF NOT EXISTS departments(" +
                     "department_id  int primary key," +
                     "department_name varchar(50) not null,"+
                     "description varchar(100))";
 
-      if(databaseHelper.executeDefintion(query)){
-          System.out.println(" Department created successfully");
-          return true;
 
+          if (databaseHelper.executeDefintion(query)) {
+              System.out.println(" Department created successfully");
+              return true;
+
+          }
+
+          return false;
       }
 
-      return false;
-
-    }
 
 
-    public Boolean addDepartment(DepartmentModel department){
+
+    public Boolean addDepartment(DepartmentModel department)  throws SQLException,ClassNotFoundException{
        String query = "INSERT INTO departments(department_id,department_name,description)"+
                         "VALUES (?,?,?)";
 
@@ -46,19 +43,20 @@ public class DepartmentService {
     }
 
 
-    public boolean deleteDepartment(int departmentId){
+    public boolean deleteDepartment(int departmentId) throws SQLException,ClassNotFoundException{
         String query= "DELETE FROM departments WHERE department_id=?";
 
         int rowChanged=databaseHelper.executeManipulation(query,departmentId);
 
         return rowChanged>0;
     }
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+

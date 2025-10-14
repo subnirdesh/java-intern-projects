@@ -20,9 +20,9 @@ public class EmployeeService {
 
 
 
-    public boolean createEmployeeTable(){
+    public boolean createEmployeeTable() throws SQLException, ClassNotFoundException {
         String query= "CREATE TABLE IF NOT EXISTS employees ("
-                        + "employee_id INT PRIMARY KEY AUTO_INCREMENT, "
+                        + "employee_id INT PRIMARY KEY , "
                         + "department_id INT, "
                         + "name VARCHAR(100) NOT NULL, "
                         + "email VARCHAR(100) UNIQUE, "
@@ -39,11 +39,11 @@ public class EmployeeService {
     }
     //String addQuery= "INSERT INTO employees (employee_id,department_id,name,email,phone,dob,hire_date,position)"+
     //"VALUES(?,?,?,?,?,?,?,?)";
-    public  Boolean addEmployee(EmployeeModel employee){
-        String query=" INSERT INTO employees(department_id,name,email,phone,dob,hire_date,position)"+
+    public  Boolean addEmployee(EmployeeModel employee) throws SQLException, ClassNotFoundException {
+        String query=" INSERT INTO employees(employee_id,department_id,name,email,phone,dob,hire_date,position)"+
                         "VALUES(?,?,?,?,?,?,?)";
 
-        int rowChanged=databaseHelper.executeManipulation(query,employee.getDepartmentId(),employee.getName(),employee.getEmail(),
+        int rowChanged=databaseHelper.executeManipulation(query,employee.getEmployeeId(),employee.getDepartmentId(),employee.getName(),employee.getEmail(),
                         employee.getPhone(),employee.getDob(),employee.getHireDate(),employee.getPostion());
 
         return rowChanged>0;
@@ -51,7 +51,7 @@ public class EmployeeService {
     }
 
 
-    public Boolean deleteEmployee(int employeeId){
+    public Boolean deleteEmployee(int employeeId) throws SQLException, ClassNotFoundException {
         String query=" DELETE FROM employees WHERE employee_id=?";
 
         int rowChanged=databaseHelper.executeManipulation(query,employeeId);

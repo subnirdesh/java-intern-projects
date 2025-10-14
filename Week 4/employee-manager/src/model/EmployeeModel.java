@@ -92,22 +92,15 @@ public class EmployeeModel {
 
     @Override
     public String toString() {
-        return String.format("| %-12d | %-14d | %-20s | %-25s | %-15s | %-12s | %-12s | %-20s |",
-                employeeId,
-                departmentId,
-                name,
-                email,
-                phone,
-                dob,
-                hireDate,
+        return String.format(
+                employeeId+","+
+                departmentId+","+
+                name+","+
+                email+","+
+                phone+","+
+                dob+","+
+                hireDate+","+
                 postion);
-    }
-
-    public static String getTableHeader() {
-        return String.format("| %-12s | %-14s | %-20s | %-25s | %-15s | %-12s | %-12s | %-20s |",
-                "Employee ID", "Department ID", "Name", "Email", "Phone",
-                "DOB", "Hire Date", "Position") +
-                "\n" + "-".repeat(165);
     }
 
 

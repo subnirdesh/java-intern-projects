@@ -37,4 +37,9 @@ public class DepartmentModel {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString(){
+        return String.format(departmentId+","+name+","+description);
+    }
 }
