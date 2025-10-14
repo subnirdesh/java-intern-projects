@@ -22,6 +22,9 @@ public class EmployeeModel {
         this.hireDate = hireDate;
         this.postion = postion;
     }
+    public EmployeeModel(){
+
+    }
 
     public int getEmployeeId() {
         return employeeId;
@@ -86,4 +89,26 @@ public class EmployeeModel {
     public void setPostion(String postion) {
         this.postion = postion;
     }
+
+    @Override
+    public String toString() {
+        return String.format("| %-12d | %-14d | %-20s | %-25s | %-15s | %-12s | %-12s | %-20s |",
+                employeeId,
+                departmentId,
+                name,
+                email,
+                phone,
+                dob,
+                hireDate,
+                postion);
+    }
+
+    public static String getTableHeader() {
+        return String.format("| %-12s | %-14s | %-20s | %-25s | %-15s | %-12s | %-12s | %-20s |",
+                "Employee ID", "Department ID", "Name", "Email", "Phone",
+                "DOB", "Hire Date", "Position") +
+                "\n" + "-".repeat(165);
+    }
+
+
 }

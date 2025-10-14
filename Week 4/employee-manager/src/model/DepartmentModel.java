@@ -11,6 +11,9 @@ public class DepartmentModel {
         this.description = description;
     }
 
+    public DepartmentModel(){
+
+    }
     public int getDepartmentId() {
         return departmentId;
     }

@@ -1,63 +1,43 @@
 package view;
 
-import com.sun.tools.javac.Main;
-import manager.DepartmentManager;
-import manager.EmployeeManager;
+import config.DatabaseHelper;
+import service.DepartmentService;
 import model.DepartmentModel;
 import model.EmployeeModel;
+import service.EmployeeService;
 import util.UserInputUtil;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MainMenu {
 
+
     public static void main(String[] args) {
+        MainMenu menu= new MainMenu();
+        DepartmentService departmentService =new DepartmentService();
+        EmployeeService employeeService=new EmployeeService();
 
-        MainMenu newMenu =new MainMenu();
-        EmployeeManager employeeManager =new EmployeeManager();
-        DepartmentManager departmentManager=new DepartmentManager();
+        // Creating Department Table
+        boolean isDepartmentTable= departmentService.createDepartmentTable();
+        System.out.println(isDepartmentTable);
 
-
-        EmployeeModel employee= newMenu.inputEmployeeFields();
-        boolean isEmployeeAdded = employeeManager.addEmployee(employee);
-        if(isEmployeeAdded){
-            System.out.println("Employee added successfully");
-        }
-
-        DepartmentModel department =newMenu.inputDepartmentField();
-        boolean isDepartmentAdded= departmentManager.addDepartment(department);
-        if(isDepartmentAdded){
-            System.out.println("Department Added Successfully ");
-        }
-
-        employeeManager.deleteEmployee(UserInputUtil.getIntInput("Employee ID"));
+        //Creating Employee Table
+        boolean isEmployeeTable=employeeService.createEmployeeTable();
+        System.out.println(isEmployeeTable);
 
 
     }
 
 
-    public EmployeeModel inputEmployeeFields(){
 
-        int employeeId= UserInputUtil.getIntInput("Employee ID");
-        int departmentId= UserInputUtil.getIntInput("Department ID");
-        String name= UserInputUtil.getStringInput("Employee Name");
-        String phone= UserInputUtil.getStringInput("Phone");
-        String email= UserInputUtil.getStringInput("Email");
-        LocalDate dob=UserInputUtil.getDateInput(" Date of Birth");
-        LocalDate hireDate=UserInputUtil.getDateInput(" Hire Date ");
-        String postion=UserInputUtil.getStringInput("Postion");
 
-        return new EmployeeModel(employeeId,departmentId,name,email, phone, dob,hireDate,postion);
+
+
+
+
 
     }
 
-    public DepartmentModel inputDepartmentField(){
 
-        int departmentId=UserInputUtil.getIntInput("Department ID");
-        String  departmentName=UserInputUtil.getStringInput("Department Name");
-        String description =UserInputUtil.getStringInput("Description");
 
-        return new DepartmentModel(departmentId,departmentName,description);
-    }
-
-}

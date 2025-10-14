@@ -2,6 +2,7 @@ package config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseConfig {
@@ -13,8 +14,11 @@ public class DatabaseConfig {
 
 
 
-    public static Connection getDbConnection() throws SQLException, ClassNotFoundException {
+
+    public  static Connection makeConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
-}
+
+    }
+
