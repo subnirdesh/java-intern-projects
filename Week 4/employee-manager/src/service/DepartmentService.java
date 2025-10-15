@@ -4,6 +4,9 @@ package service;
 import config.DatabaseHelper;
 import model.DepartmentModel;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DepartmentService {
    private DatabaseHelper databaseHelper;
@@ -49,6 +52,23 @@ public class DepartmentService {
         int rowChanged=databaseHelper.executeManipulation(query,departmentId);
 
         return rowChanged>0;
+    }
+
+    public List<DepartmentModel> selectAllDepartment() throws SQLException,ClassNotFoundException{
+       String query="SELECT * from departments";
+
+       List<DepartmentModel> departmentList =new ArrayList<>();
+       List<Map<String,Object>> departmentMap=databaseHelper.executeSelection(query);
+
+       for(Map<String,Object> map:departmentMap){
+           DepartmentModel departmentModel=new DepartmentModel();
+           departmentModel.setDepartmentId( (Integer)map.get("department_id"));
+           departmentModel.setName(map.get("department_name").toString());
+           departmentModel.setDescription(map.get("description").toString());
+           departmentList.add(departmentModel);
+       }
+
+       return departmentList;
     }
 }
 

@@ -53,8 +53,8 @@ public class CSVReader {
                 String name=line[2].trim();
                 String email=line[3].trim();
                 String phone=line[4].trim();
-                LocalDate dob=LocalDate.parse(line[5].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                LocalDate hireDate=LocalDate.parse(line[6].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate dob=LocalDate.parse(line[5].trim(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+                LocalDate hireDate=LocalDate.parse(line[6].trim(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
                 String postion=line[7].trim();
 
                 EmployeeModel employee=new EmployeeModel(employeeId,departmentId,name,email,phone,dob,hireDate,postion);

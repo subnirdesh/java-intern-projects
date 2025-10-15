@@ -1,58 +1,52 @@
 package view;
 
-import config.DatabaseHelper;
-import service.DepartmentService;
+import com.sun.tools.javac.Main;
+import controller.MainController;
 import model.DepartmentModel;
 import model.EmployeeModel;
+import service.DepartmentService;
 import service.EmployeeService;
-import util.CSVReader;
 import util.CSVWriter;
+import util.UserInputUtil;
+import util.ValidationUtil;
+
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainMenu {
+    private DepartmentService departmentService;
+    private EmployeeService employeeService;
+    private MainController mainController;
 
 
-    public static void main(String[] args) {
-        MainMenu menu= new MainMenu();
-        DepartmentService departmentService =new DepartmentService();
-        EmployeeService employeeService=new EmployeeService();
-
-
-
-        // 1. Writing department in CSV file
-        // 2. Writing employee in CSV file
-        //3. Reading department from CSV file
-        // 4. Reading employee from CSV file
-        //5. Writing  department rows in database
-        //6. Writing employee rows in database
-
+    public MainMenu(){
+     this.departmentService= new DepartmentService();
+    this.employeeService=new EmployeeService();
+    this.mainController= new MainController();
     }
 
-    public void writeDepartment(int departmentId, String name, String description){
-        DepartmentModel department =new DepartmentModel(departmentId,name,description);
-        try{
-            CSVWriter.writeDepartment(department);
-            System.out.println( name + " : Department written successfully ");
 
-        } catch (IOException e) {
-            System.out.println(" Error while writing in CSV file: "+e.getMessage());
-        }
-    }
+     static void main(String[] args) {
 
-    public void writeEmployee(int employeeId, int departmentId, String name, String email, String phone, LocalDate dob, LocalDate hireDate, String postion){
-        EmployeeModel employee =new EmployeeModel(employeeId,departmentId,name,email,phone,dob,hireDate,postion);
-        try{
-            CSVWriter.writeEmployee(employee);
-            System.out.println( name+ " : Employee written successfully ");
-        } catch (IOException e) {
-            System.out.println(" Error while writing in CSV file: "+e.getMessage());
+
+
         }
 
 
-        }
+        public void menu(){
+            // 1. Writing department in CSV file
+            DepartmentModel departmentModel=mainController.getDepartmentFields();
+            mainController.writeDepartment(departmentModel);
+
+            // 2. Writing employee in CSV file
+            EmployeeModel employeeModel =mainController.getEmployeeFields();
+            mainController.writeEmployee(employeeModel);
     }
+}
 
 
 
@@ -66,7 +60,18 @@ public class MainMenu {
 
 
 
-    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

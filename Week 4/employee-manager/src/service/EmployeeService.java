@@ -1,12 +1,14 @@
 package service;
 
-import config.DatabaseConfig;
 import config.DatabaseHelper;
+import model.DepartmentModel;
 import model.EmployeeModel;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class EmployeeService {
     private DatabaseHelper databaseHelper;
@@ -57,6 +59,29 @@ public class EmployeeService {
         int rowChanged=databaseHelper.executeManipulation(query,employeeId);
 
         return rowChanged>0;
+    }
+
+    public List<EmployeeModel> selectAllEmployees() throws SQLException,ClassNotFoundException{
+        String query="SELECT * from employees";
+
+        List<EmployeeModel> employeeList =new ArrayList<>();
+        List<Map<String,Object>> employeeMap =databaseHelper.executeSelection(query);
+
+        for(Map<String,Object> map: employeeMap){
+           EmployeeModel employee =new EmployeeModel();
+           employee.setEmployeeId((Integer)map.get("employee_id") );
+           employee.setDepartmentId((Integer)map.get("department_id"));
+           employee.setName(map.get("name").toString());
+           employee.setEmail(map.get("email").toString());
+           employee.setPhone(map.get("phone").toString());
+           employee.setDob((LocalDate) map.get("dob"));
+           employee.setHireDate((LocalDate) map.get("hire_date"));
+           employee.setPostion(map.get("position").toString());
+
+            employeeList.add(employee);
+        }
+
+        return employeeList;
     }
 
 

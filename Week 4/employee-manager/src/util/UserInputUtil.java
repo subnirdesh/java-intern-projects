@@ -13,7 +13,7 @@ public class UserInputUtil {
         while(true){
             System.out.println("Enter " + inputName + " : ");
             value= input.nextLine();
-             if(value!=null && !value.isEmpty()){
+             if(value!=null && !value.isBlank()){
                  return value;
              }
              else{
@@ -64,6 +64,8 @@ public class UserInputUtil {
         }
         return value;
     }
+
+
 
 
 }
