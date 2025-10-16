@@ -31,20 +31,17 @@ public class MainMenu {
 
 
      static void main(String[] args) {
+        MainMenu menu=new MainMenu();
+        menu.start();
 
 
 
         }
 
 
-        public void menu(){
-            // 1. Writing department in CSV file
-            DepartmentModel departmentModel=mainController.getDepartmentFields();
-            mainController.writeDepartment(departmentModel);
+        public void start(){
 
-            // 2. Writing employee in CSV file
-            EmployeeModel employeeModel =mainController.getEmployeeFields();
-            mainController.writeEmployee(employeeModel);
+
     }
 }
 

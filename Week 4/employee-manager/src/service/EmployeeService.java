@@ -43,7 +43,7 @@ public class EmployeeService {
     //"VALUES(?,?,?,?,?,?,?,?)";
     public  Boolean addEmployee(EmployeeModel employee) throws SQLException, ClassNotFoundException {
         String query=" INSERT INTO employees(employee_id,department_id,name,email,phone,dob,hire_date,position)"+
-                        "VALUES(?,?,?,?,?,?,?)";
+                        "VALUES(?,?,?,?,?,?,?,?)";
 
         int rowChanged=databaseHelper.executeManipulation(query,employee.getEmployeeId(),employee.getDepartmentId(),employee.getName(),employee.getEmail(),
                         employee.getPhone(),employee.getDob(),employee.getHireDate(),employee.getPostion());

@@ -3,6 +3,8 @@ package controller;
 import model.DepartmentModel;
 import model.EmployeeModel;
 import service.DepartmentService;
+import service.EmployeeService;
+import util.CSVReader;
 import util.CSVWriter;
 import util.UserInputUtil;
 import util.ValidationUtil;
@@ -14,10 +16,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
-    public EmployeeModel getEmployeeFields(){
+    private DepartmentService deptService;
+    private EmployeeService empService;
+
+    public MainController(){
+        this.deptService= new DepartmentService();
+        this.empService=new EmployeeService();
+    }
+
+    public EmployeeModel getEmployeeFields(List<EmployeeModel> employeeList){
 
         //1. Employee Id
-        int employeeId= UserInputUtil.getIntInput("Employee ID");
+        boolean isValidEmployee=true;
+        int employeeId=0;
+        while(isValidEmployee){
+            employeeId= UserInputUtil.getIntInput("Employee ID");
+            if(!ValidationUtil.isDuplicateEmployee(employeeList,employeeId)){
+                isValidEmployee=false;
+            }
+        }
 
         // 2. DepartmentId
         int departmentId=UserInputUtil.getIntInput("Department ID");
@@ -90,15 +107,75 @@ public class MainController {
         }
     }
 
-    public List<DepartmentModel> readDepartments(DepartmentService deptService){
-        List<DepartmentModel> deptList =new ArrayList<>();
+    public DepartmentModel readDepartmentsforDB(){
+        DepartmentModel department=null;
         try{
-            deptList= deptService.selectAllDepartment();
+             List<DepartmentModel> deptList= CSVReader.readDepartments();
+             department=deptList.getLast();
+
+        }catch(IOException e){
+            System.out.println("Error while reading from CSV File : "+e.getMessage());
+        }
+
+        return department;
+    }
+
+    public EmployeeModel readEmployeesforDB(){
+        EmployeeModel employee=null;
+        try{
+            List<EmployeeModel> empList=CSVReader.readEmployees();
+            employee=empList.getLast();
+        }catch(IOException e){
+            System.out.println("Error whole reading from CSV File "+e.getMessage());
+        }
+
+        return employee;
+    }
+    public List<DepartmentModel> readallDepartments(){
+        List<DepartmentModel> departmentList= new ArrayList<>();
+        try{
+            List<DepartmentModel> deptList= deptService.selectAllDepartment();
+
         }catch(SQLException | ClassNotFoundException e){
             System.out.println("Error while reading in database: "+e.getMessage());
         }
 
-        return deptList;
+        return departmentList;
+    }
+
+    public List<EmployeeModel> readallEmployees(){
+        List<EmployeeModel> employeeList=new ArrayList<>();
+        try{
+            List<EmployeeModel> empList=empService.selectAllEmployees();
+
+        }catch(SQLException|ClassNotFoundException e){
+            System.out.println("Error whole reading in database "+e.getMessage());
+        }
+
+        return employeeList ;
+    }
+
+    public boolean writeDeptToDB(DepartmentModel department){
+        boolean isDone=true;
+        try{
+             isDone=deptService.addDepartment(department);
+        }catch(SQLException|ClassNotFoundException e){
+            System.out.println(" Error while adding to DB "+ e.getMessage());
+            isDone=false;
+        }
+
+        return isDone;
+    }
+
+    public boolean writeEmpToDB(EmployeeModel employeeModel){
+        boolean isDone=true;
+        try{
+            isDone=empService.addEmployee(employeeModel);
+        }catch(SQLException|ClassNotFoundException e){
+            System.out.println(" Error while adding to DB "+ e.getMessage());
+            isDone=false;
+        }
+        return isDone;
     }
 
 }

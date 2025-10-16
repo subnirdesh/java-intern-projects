@@ -11,7 +11,7 @@ public class ValidationUtil {
 
 
 
-    public  static boolean isDuplicateEmployee(ArrayList<EmployeeModel> employeeList,int employeeId){
+    public  static boolean isDuplicateEmployee(List<EmployeeModel> employeeList,int employeeId){
         for(EmployeeModel employeeModel:employeeList){
             if(employeeId==employeeModel.getEmployeeId()){
                 return true;
@@ -20,7 +20,7 @@ public class ValidationUtil {
         return false;
     }
 
-    public static boolean isDuplicatePhone(ArrayList<EmployeeModel> employeeList, String phone){
+    public static boolean isDuplicatePhone(List<EmployeeModel> employeeList, String phone){
         for(EmployeeModel employeeModel:employeeList){
             if(phone.trim().equals(employeeModel.getPhone().trim())){
                 return true;
@@ -29,7 +29,7 @@ public class ValidationUtil {
         return false;
     }
 
-    public static boolean isDuplicateEmail(ArrayList<EmployeeModel> employeeList,String email){
+    public static boolean isDuplicateEmail(List<EmployeeModel> employeeList,String email){
         for(EmployeeModel employeeModel:employeeList){
             if(email.trim().equals(employeeModel.getEmail().trim())){
                 return true;
@@ -46,6 +46,8 @@ public class ValidationUtil {
         }
         return false;
     }
+
+
 
 
 
