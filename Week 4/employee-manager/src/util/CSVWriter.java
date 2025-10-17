@@ -1,47 +1,41 @@
 package util;
 
-import model.DepartmentModel;
-import model.EmployeeModel;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CSVWriter {
 
-    public static void  writeDepartment(DepartmentModel department ) throws IOException{
-        String fileName="department.csv";
-        File file=new File(fileName); //this creates a reference to a file
-        boolean makeHeader=!file.exists() || file.length()==0;
+    public static void writeObject(List<Map<String, Object>> listOfMap) throws IOException {
+        if(listOfMap==null||listOfMap.isEmpty()){
+            throw new IllegalArgumentException(" List is empty. Nothing to write! ");
+        }
+        String fileName = "departments.csv";
+        File file = new File(fileName);
+        Set<String> keys= listOfMap.getFirst().keySet();
+        boolean makeHeader = !file.exists() || file.length() == 0;
 
-        try(BufferedWriter writer =new BufferedWriter(new FileWriter(fileName,true))){
-            if(makeHeader){
-                writer.write("department_id, name, description");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            if (makeHeader) {
+                writer.write(String.join(",",keys));
                 writer.newLine();
             }
 
-            writer.write(department.toString());
-            writer.newLine();
+            for(Map<String,Object> map: listOfMap ){
+                List<String> values=new ArrayList<>();
 
-        }
-    }
-
-    public static void  writeEmployee(EmployeeModel employee ) throws IOException{
-        String fileName="employees.csv";
-        File file=new File(fileName);
-        boolean makeHeader=!file.exists() || file.length()==0;
-
-        try(BufferedWriter writer =new BufferedWriter(new FileWriter(fileName,true))){
-            if(makeHeader){
-                writer.write("employee_id,department_id,name,email,phone,dob,hire_date,position");
-                writer.newLine();
+                for(String key:keys){
+                    Object value=map.get(key);
+                    String safeString=(value==null) ? "": value.toString().replace(",","");
+                    values.add(safeString);
+                }
+                writer.write(String.join(",",values));
             }
-
-            writer.write(employee.toString());
-            writer.newLine();
-
         }
     }
-
 }
