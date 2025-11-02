@@ -6,10 +6,7 @@ import model.EmployeeModel;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CSVReader {
 
@@ -20,9 +17,8 @@ public class CSVReader {
             String line=reader.readLine();
             String[] header=line.split(",");
 
-            line=reader.readLine();
-            while(line!=null){
-                Map<String,Object> map=new HashMap<>();
+            while((line=reader.readLine())!=null){
+                Map<String,Object> map=new LinkedHashMap<>();
                 String[] record=line.split(",");
                 for(int i =0;i< header.length&&  i <record.length;i++){
                     map.put(header[i].trim(),record[i].trim());

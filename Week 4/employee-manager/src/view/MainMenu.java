@@ -1,43 +1,42 @@
 package view;
 
-import com.sun.tools.javac.Main;
-import model.DepartmentModel;
-import model.EmployeeModel;
-import service.DepartmentService;
-import service.EmployeeService;
-import util.CSVWriter;
-import util.UserInputUtil;
-import util.ValidationUtil;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
+import controller.MainController;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainMenu {
-    private DepartmentService departmentService;
-    private EmployeeService employeeService;
-
+    private  MainController mainController;
 
     public MainMenu(){
-     this.departmentService= new DepartmentService();
-    this.employeeService=new EmployeeService();
-
+        this.mainController= new MainController();
     }
 
 
+
+
      static void main(String[] args) {
-
-
-
+        MainMenu menu=new MainMenu();
+        boolean isSuccessful=menu.execute();
+        if(isSuccessful){
+            System.out.println(" Successfully exported to DB");
+        }else{
+            System.out.println("Export Failed" );
         }
+     }
+
+     public  boolean execute(){
+        List<Map<String,Object>> listofMaps=mainController.readFile("data.csv");
+       return  mainController.exportToDB(listofMaps,"employees");
+     }
 
 
 
 }
+
+
+
 
 
 

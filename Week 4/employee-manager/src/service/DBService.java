@@ -3,10 +3,7 @@ package service;
 import config.DatabaseHelper;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DBService {
     private DatabaseHelper dbHelper;
@@ -15,18 +12,17 @@ public class DBService {
         dbHelper=new DatabaseHelper();
     }
 
-    public void exportToDatabase(List<Map<String,Object>> listOfMaps,String tableName) throws SQLException,ClassNotFoundException {
+    public void  exportToDatabase(List<Map<String,Object>> listOfMaps,String tableName) throws SQLException,ClassNotFoundException {
 
         // Creating table in DB, the attributes/rows are equivalent to keys in the maps
         String query=createTableQuery(listOfMaps,tableName);
         // helper function from DBHelper class  to actually run the query
-        dbHelper.executeDefintion(query);
+        dbHelper.executeDefinition(query);
 
 
         for(Map<String,Object> map: listOfMaps){
-            String values=map.values().toArray();
-            dbHelper.executeManipulation(insertQuery(listOfMaps,tableName),)
-
+            Object[] values=map.values().toArray();
+            dbHelper.executeManipulation(insertQuery(listOfMaps,tableName),values);
         }
 
     }
@@ -37,23 +33,27 @@ public class DBService {
             throw new IllegalArgumentException(" The provided map is empty. Nothing to process");
         }
 
+        // getting the keys of the maps ; equivalent to column name
         List<String> keys=new ArrayList<>(listOfMaps.getFirst().keySet());
 
+        //getting first row for type detection
+        Map<String,Object> firstRow=listOfMaps.getFirst();
+
+        // string builder to create query ; faster and efficient than array
         StringBuilder query =new StringBuilder("CREATE TABLE IF NOT EXISTS ");
         query.append(tableName).append(" (");
-        query.append(keys.getFirst().trim()).append(" INT AUTO_INCREMENT PRIMARY KEY, ");
+        query.append(keys.getFirst().trim()).append(" INT AUTO_INCREMENT PRIMARY KEY");
 
-        for(Map<String,Object> map: listOfMaps){
-            for(String key:keys){
-                String columnName=key.trim();
-                String type=detectType(map.get(key));
-                query.append(columnName).append(" ").append(type);
+
+        for(int i=1;i< keys.size();i++){
+            String columnName=keys.get(i).trim();
+            String type=detectType(firstRow.get(keys.get(i)));
+            query.append(" ,").append(columnName).append(" ").append(type);
             }
-        }
+
         query.append(" )");
 
         return query.toString();
-
     }
 
     public String insertQuery(List<Map<String,Object>> listOfMaps,String tableName){
@@ -64,6 +64,7 @@ public class DBService {
         query.append(attributes).append(")").append(" VALUES").append(" (");
         String que="?,";
         query.append(que.repeat(columnCount-1)).append("?)");
+
 
         return query.toString();
     }
