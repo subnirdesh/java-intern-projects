@@ -2,19 +2,6 @@
 
 This is a simple command-line application for managing student records.
 
-## How to Compile and Run
-
-To compile the Java code, use the following command:
-
-```bash
-javac src/StudentManager.java src/StudentModel.java
-```
-
-To run the application, use the following command:
-
-```bash
-java -cp src StudentManager
-```
 
 ## Features
 
